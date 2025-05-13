@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "553222052220",
+    "project_id": "ambtfc",
+    "storage_bucket": "ambtfc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553222052220:android:e285de6880681eb4216cf9",
+        "android_client_info": {
+          "package_name": "com.example.tfc_amb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWHPn-4XXzEvMM3Nq0Fwj0E4TLMfWyD14"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

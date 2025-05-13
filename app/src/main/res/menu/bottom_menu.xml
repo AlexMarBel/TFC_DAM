@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/btn_home"
+        android:icon="@drawable/baseline_home_24"
+        android:title="Principal"/>
+
+    <item
+        android:id="@+id/btn_cuenta"
+        android:icon="@drawable/baseline_account_circle_24"
+        android:title="Cuenta"/>
+
+    <item
+        android:id="@+id/btn_none"
+        android:title=""/>
+
+    <!--
+    <item
+        android:id="@+id/bottom_carrito"
+        android:icon="@drawable/baseline_shopping_cart_24"
+        android:title="Carrito"/>
+    -->
+    <item
+        android:id="@+id/btn_favoritos"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Favoritos"/>
+
+    <item
+        android:id="@+id/btn_salir"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="Salir"/>
+
+
+</menu>

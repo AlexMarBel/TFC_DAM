@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Tienda.CarritoActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@drawable/borde_bajo_redondeado"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <fragment
+                    android:id="@+id/fragment_btnAtras"
+                    android:name="com.example.tfc_amb.Fragments.BotonAtrasFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="10dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="63dp"
+                    android:layout_height="62dp"
+                    android:layout_marginEnd="36dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewCompraFecha"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.267"
+                    app:layout_constraintStart_toEndOf="@+id/textViewCompraFecha"
+                    app:layout_constraintTop_toTopOf="@+id/textViewCompraFecha"
+                    app:srcCompat="@drawable/baseline_shopping_cart_24" />
+
+                <TextView
+                    android:id="@+id/textViewCompraFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mi_carrito"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/agbalumo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.357"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="275dp"
+                    android:orientation="vertical">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewCarrito"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="10sp" />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textViewSubtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/subtotal"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewIVA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/iva"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="@+id/textViewSubtotal"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewSubtotal" />
+
+                    <TextView
+                        android:id="@+id/textViewTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/total"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/textViewIVA"
+                        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+                    <TextView
+                        android:id="@+id/textViewSubtotalCantidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/cantidad_subtotal"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/textViewSubtotal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/textViewSubtotal"
+                        app:layout_constraintTop_toTopOf="@+id/textViewSubtotal"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/textViewIVACantidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cantidad_iva"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/textViewIVA"
+                        app:layout_constraintEnd_toEndOf="@+id/textViewSubtotalCantidad"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toEndOf="@+id/textViewIVA"
+                        app:layout_constraintTop_toTopOf="@+id/textViewIVA" />
+
+                    <TextView
+                        android:id="@+id/textViewTotalCantidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cantidad_total"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@+id/textViewTotal"
+                        app:layout_constraintEnd_toEndOf="@+id/textViewIVACantidad"
+                        app:layout_constraintTop_toTopOf="@+id/textViewTotal" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="350dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/grey_font"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewGastosEnvio" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonRealizarCompra"
+                        android:layout_width="230dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@color/verde"
+                        android:text="@string/confirmar_compra"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewTotal" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonCarritoBorrar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2dp"
+                        android:text="@string/borrar"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/buttonRealizarCompra"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonRealizarCompra"
+                        app:layout_constraintHorizontal_bias="0.659"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/buttonRealizarCompra"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                    <TextView
+                        android:id="@+id/textViewGastosEnvio"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="@string/gastos_envio"
+                        android:textSize="18sp"
+                        android:background="@drawable/botones_perfil"
+                        app:layout_constraintStart_toStartOf="@+id/textViewIVA"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewIVA" />
+
+                    <TextView
+                        android:id="@+id/textViewGastosEnvioCantidad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/cantidad_gastos_envio"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/textViewGastosEnvio"
+                        app:layout_constraintEnd_toEndOf="@+id/textViewIVACantidad"
+                        app:layout_constraintTop_toTopOf="@+id/textViewGastosEnvio" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+        <fragment
+            android:id="@+id/fragment_bottom_nav"
+            android:name="com.example.tfc_amb.Fragments.BarraNavFloatingFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
