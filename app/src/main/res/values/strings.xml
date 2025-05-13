@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">TFC_AMB</string>
+
+    <string name="inicio_sesion_titulo">INICIO DE SESIÓN</string>
+    <string name="no_cuenta">¿No tienes una cuenta?</string>
+    <string name="registrate">Regístrate</string>
+    <string name="iniciar_sesion">Iniciar sesión</string>
+    <string name="error_iniciar_sesion">Error al iniciar sesion. Los datos no son correctos.</string>
+
+    <string name="Registro">REGISTRO</string>
+    <string name="hint_nombre">Nombre</string>
+    <string name="hint_apellidos">Apellidos</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_contrasena">Contraseña</string>
+    <string name="hint_contrasena_confirmar">Confirma contraseña</string>
+    <string name="hint_recuperar_contrasena">Introduce tu email</string>
+    <string name="crear_cuenta">Crear cuenta</string>
+    <string name="tienes_cuenta">¿Ya tienes una cuenta?</string>
+    <string name="inicia_sesion">Inicia sesión</string>
+    <string name="recuperar_contrasena">Recupera tu contraseña</string>
+
+
+    <string name="error_nombre_vacio">Introduce un nombre de usuario.</string>
+    <string name="error_nombre_composicion">El nombre debe tener entre 6 y 20 caracteres</string>
+    <string name="error_apellidos_vacio">Introduce unos apellidos.</string>
+    <string name="error_apellidos_composicion">Los apellidos deben tener entre 6 y 30 caracteres</string>
+    <string name="error_email_vacio">Introduce un email</string>
+    <string name="error_email_composicion">Introduce un email válido</string>
+    <string name="error_contrasena_vacio">Introduce una contraseña</string>
+    <string name="error_contrasena_composicion">Debe tener entre 6 y 20 caracteres, un número y un carácter especial</string>
+    <string name="usuario_registrado">¡Listo! Cuenta creada.</string>
+    <string name="error_registro">Error al crear cuenta.</string>
+    <string name="error_email_en_uso">Este email ya se encuentra en uso.</string>
+    <string name="error_contrasena_no_iguales">Las contraseñas no coinciden</string>
+    <string name="email_enviado">Email de recuperación de contraseña enviado.</string>
+    <string name="error_email_enviado">Error al enviar el email de recuperación de contraseña.</string>
+
+    <string name="bienvenido">¡Bienvenid@ %s!</string>
+
+    <string name="apetece">¿Qué te apetece?</string>
+    <string name="buscar_producto">Busca entre nuestros %s productos.</string>
+    <string name="tenemos_producto">Actualmente tenemos %s productos.</string>
+    <string name="buscar_categoria">Busca entre nuestras %s categorías.</string>
+    <string name="tenemos_categorias">Actualmente tenemos %s categorías.</string>
+
+    <string name="categorias">Categorías</string>
+    <string name="categorias_ver">Ver todas</string>
+    <string name="mas_vendidos">Más vendidos</string>
+    <string name="ver_todos">Ver todos</string>
+
+    <string name="cuenta">Cuenta</string>
+    <string name="explorar">Explorar</string>
+    <string name="salir">Salir</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="carrito">Carrito</string>
+
+    <string name="boton_si">Sí</string>
+    <string name="boton_cancelar">Cancelar</string>
+    <string name="cerrar_sesion">Cerrar sesión</string>
+    <string name="pregunta_salir">¿Estás seguro de que quieres cerrar sesión y salir?</string>
+
+    <string name="precio">Precio: %s€</string>
+    <string name="seleccionar_peso">Selecciona cuantos kilos deseas:</string>
+    <string name="agregar_carrito">Añadir al carrito</string>
+    <string name="anadido_al_carrito_error">Error al añadir al carrito</string>
+    <string name="anadido_al_carrito">Producto añadido al carrito!</string>
+
+
+    <string name="producto">Productos</string>
+    <string name="num_productos_categoria">Productos: %s</string>
+    <string name="titulo_categoria">%s</string>
+
+    <string name="tus_productos_favoritos">Tus productos favoritos</string>
+    <string name="perfil_usuario">Perfil de usuario</string>
+    <string name="boton_datos">Datos</string>
+    <string name="boton_direccion">Dirección</string>
+    <string name="boton_compras">Compras</string>
+    <string name="boton_administrar">Administrar</string>
+    <string name="telefono">Télefono</string>
+    <string name="guardar">Guardar</string>
+    <string name="volver">Volver</string>
+    <string name="volver_tienda">Volver a la tienda</string>
+    <string name="datos_usuario">Datos de usuario</string>
+    <string name="calle">Calle</string>
+    <string name="portal">Portal</string>
+    <string name="piso">Piso</string>
+    <string name="puerta">Puerta</string>
+    <string name="ciudad">Ciudad</string>
+    <string name="codigo_postal">C.P.</string>
+    <string name="direccion_usuario">Dirección de usuario</string>
+
+    <string name="error_calle_vacio">Introduce una calle.</string>
+    <string name="error_portal_vacio">Introduce un portal.</string>
+    <string name="error_piso_vacio">Introduce un número piso.</string>
+    <string name="error_puerta_vacio">Introduce una puerta.</string>
+    <string name="error_ciudad_vacio">Introduce una ciudad.</string>
+    <string name="error_codigo_postal_vacio">Introduce un código postal.</string>
+    <string name="error_telefono_vacio">Introduce un teléfono.</string>
+    <string name="direccion_registrada">Dirección guardada correctamente.</string>
+    <string name="datos_registrados">Datos registrados correctamente</string>
+    <string name="error_guardar_datos">Error al guardar los datos</string>
+
+    <string name="mi_carrito">Mi carrito</string>
+    <string name="precio_producto_carrito">Precio: %s €</string>
+    <string name="precio_producto_carrito_kg">Precio/kg: %s €</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="cantidad_producto_carrito_kg">%s kg</string>
+    <string name="cantidad_producto_carrito_kgs">%s kgs</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="iva">I.V.A.</string>
+    <string name="total">Total</string>
+    <string name="cantidad_subtotal">%s €</string>
+    <string name="cantidad_iva">%s €</string>
+    <string name="cantidad_total">%s €</string>
+    <string name="confirmar_compra">Confirmar compra</string>
+    <string name="borrar">Borrar</string>
+    <string name="gastos_envio">Gastos de envio</string>
+    <string name="cantidad_gastos_envio">%s €</string>
+    <string name="sin_productos">Añade productos al carrito</string>
+
+    <string name="confirmar_datos_envio">Confirmar datos de envio</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="error_obtener_datos">Error al obtener los datos</string>
+    <string name="compra_realizada">Compra realizada!</string>
+    <string name="compra_realizada_error">Error al realizar compra</string>
+    <string name="mis_compras">Mis compras</string>
+    <string name="fecha">Fecha</string>
+    <string name="compra_realizada_fecha">Compra realizada el %s</string>
+    <string name="anadido_favoritos">Producto añadido a favoritos.</string>
+    <string name="eliminado_favoritos">Producto eliminado de favoritos.</string>
+
+    <string name="administrar_productos">Administración de productos</string>
+    <string name="administrar_compras">Administrar compras</string>
+    <string name="boton_eliminar_producto">Eliminar producto</string>
+    <string name="boton_crear_categoria">Crear categoría</string>
+    <string name="boton_crear_producto">Crear producto</string>
+    <string name="boton_eliminar_categoria">Eliminar categoría</string>
+    <string name="boton_modificar_producto">Editar producto</string>
+    <string name="boton_modificar_categoria">Editar categoría</string>
+    <string name="editar_categoria">Editar categoría</string>
+    <string name="editar_producto">Editar producto</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="seleccionar_categoria">Selecciona una categoría</string>
+    <string name="seleccionar_producto">Selecciona un producto</string>
+    <string name="identificador">Identificador</string>
+    <string name="url_foto">URL Foto</string>
+    <string name="procesado">Procesado</string>
+
+
+    <string name="confirmar_eliminar_categoria">Eliminar categoría</string>
+    <string name="pregunta_eliminar_categoria">¿Está seguro de eliminar esta categoría? Se eliminarán todos los productos que contiene y no se podrán recuperar.</string>
+    <string name="error_datos_crear_categoria">Es necesario rellenar todos los datos.</string>
+    <string name="id_existe">Este número identificador ya existe en la base de datos, pertece a %s</string>
+    <string name="categoria_creada">Categoria creada correctamente</string>
+    <string name="no_productos">Actualmente no existen productos en la categoria %s</string>
+    <string name="precio2">Precio</string>
+    <string name="cantidad_vendida">Cantidad vendida</string>
+    <string name="confirmar_eliminar_producto">Eliminar producto</string>
+    <string name="pregunta_eliminar_producto">¿Está seguro de eliminar este producto? Se eliminarán todos los datos y no se podrán recuperar.</string>
+
+    <string name="error_id_producto">Ya existe un producto con este identificador.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
+

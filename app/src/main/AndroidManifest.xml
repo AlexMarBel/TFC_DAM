@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/vegetable"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TFC_AMB"
+        tools:targetApi="31">
+        <activity
+            android:name=".AdminPanel.ProductosCompraRealizadaAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.AdministrarComprasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroLogin.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.CrearProductoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.EditarProductoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.CrearCategoriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.EditarCategoriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminPanel.AdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsuarioPanel.ProductosCompraRealizadaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.ConfirmarDatosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.CarritoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsuarioPanel.DireccionActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsuarioPanel.MisComprasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsuarioPanel.DatosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".UsuarioPanel.UsuarioActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.FavoritoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.DetallesCategoriaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.ProductosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.CategoriasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.DetallesProductoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.SplashActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Tienda.TiendaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroLogin.RegistroActivity"
+            android:exported="false" />
+        <activity
+            android:name=".RegistroLogin.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

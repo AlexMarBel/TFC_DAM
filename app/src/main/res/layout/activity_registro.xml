@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/butonMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegistroLogin.RegistroActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="#E190DC94"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="272dp"
+            android:layout_height="149dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/vegetable" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textViewRegistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/adlam_display"
+        android:text="@string/Registro"
+        android:textColor="#787373"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+        app:layout_constraintVertical_bias="0.029" />
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/edit_text"
+        android:hint="@string/hint_nombre"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewRegistro" />
+
+    <EditText
+        android:id="@+id/editTextApellidos"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text"
+        android:hint="@string/hint_apellidos"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextNombre"
+        app:layout_constraintStart_toStartOf="@+id/editTextNombre"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNombre" />
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/email"
+        android:drawablePadding="10dp"
+        android:hint="@string/hint_email"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextApellidos"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/editTextApellidos"
+        app:layout_constraintTop_toBottomOf="@+id/editTextApellidos" />
+
+    <EditText
+        android:id="@+id/editTextContrasena"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="10dp"
+        android:hint="@string/hint_contrasena"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextEmail"
+        app:layout_constraintStart_toStartOf="@+id/editTextEmail"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmail"
+        app:passwordToggleEnabled="true" />
+
+    <EditText
+        android:id="@+id/editTextContrasena2"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="10dp"
+        android:hint="@string/hint_contrasena_confirmar"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/editTextContrasena"
+        app:layout_constraintStart_toStartOf="@+id/editTextContrasena"
+        app:layout_constraintTop_toBottomOf="@+id/editTextContrasena"
+        app:passwordToggleEnabled="true" />
+
+    <Button
+        android:id="@+id/buttonRecuperar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#E190DC94"
+        android:fontFamily="@font/adlam_display"
+        android:text="@string/crear_cuenta"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textTienesCuenta"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextContrasena2" />
+
+    <TextView
+        android:id="@+id/textTienesCuenta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="@font/adlam_display"
+        android:text="@string/tienes_cuenta"
+        app:layout_constraintBottom_toTopOf="@+id/textIniciaSesion"
+        app:layout_constraintEnd_toEndOf="@+id/buttonRecuperar"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="@+id/buttonRecuperar" />
+
+    <TextView
+        android:id="@+id/textIniciaSesion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:fontFamily="@font/adlam_display"
+        android:text="@string/inicia_sesion"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textTienesCuenta"
+        app:layout_constraintStart_toStartOf="@+id/textTienesCuenta" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/fondo"
+    tools:context=".AdminPanel.AdminActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@drawable/borde_bajo_redondeado"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="103dp"
+                    android:layout_height="92dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.824"
+                    app:srcCompat="@drawable/vegetable" />
+
+                <TextView
+                    android:id="@+id/textViewCompraFecha"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/administrar_productos"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/agbalumo"
+                    app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonModificarCategoria"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_edit_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/boton_modificar_categoria"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonModificarProducto"
+                    app:layout_constraintStart_toStartOf="@+id/buttonModificarProducto"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCrearProducto" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonCrearCategoria"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_add_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/boton_crear_categoria"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonCrearProducto"
+                    app:layout_constraintStart_toStartOf="@+id/buttonCrearProducto"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonCrearProducto"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_add_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/boton_crear_producto"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonModificarCategoria"
+                    app:layout_constraintStart_toStartOf="@+id/buttonModificarCategoria"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCrearCategoria" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonModificarProducto"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_edit_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/boton_modificar_producto"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonVolver"
+                    app:layout_constraintStart_toStartOf="@+id/buttonVolver"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonModificarCategoria" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonAdministrarCompras"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_edit_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/administrar_compras"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/buttonVolver"
+                    app:layout_constraintHorizontal_bias="0.533"
+                    app:layout_constraintStart_toStartOf="@+id/buttonVolver"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonModificarProducto" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonVolver"
+                    android:layout_width="350dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/botones_perfil"
+                    android:drawableStart="@drawable/baseline_exit_to_app_24"
+                    android:drawablePadding="20dp"
+                    android:paddingStart="30dp"
+                    android:text="@string/volver"
+                    android:textAlignment="viewStart"
+                    android:textAllCaps="true"
+                    android:textSize="22dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.508"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonAdministrarCompras" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
