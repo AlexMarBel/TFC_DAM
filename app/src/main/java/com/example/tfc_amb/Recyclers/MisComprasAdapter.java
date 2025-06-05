@@ -13,7 +13,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tfc_amb.Modelos.CompraRealizada;
-import com.example.tfc_amb.UsuarioPanel.ProductosCompraRealizadaActivity;
+import com.example.tfc_amb.UsuarioPanel.DetallesCompraRealizadaActivity;
 import com.example.tfc_amb.R;
 
 import java.io.Serializable;
@@ -51,6 +51,7 @@ public class MisComprasAdapter extends RecyclerView.Adapter<MisComprasAdapter.Vi
 
         holder.textViewFecha.setText(fecha);
 
+        /**
         String numeroConPunto = new String();
 
         //Para evitar problemas con el punto y la coma en valores numericos debido al idioma
@@ -60,19 +61,24 @@ public class MisComprasAdapter extends RecyclerView.Adapter<MisComprasAdapter.Vi
         }catch (NumberFormatException e){
             Log.d("Error parseo" , "Error parseo Double precio compra " + e);
         }
+        */
+
+        Double precioTotal = compraRealizada.getPrecio();
 
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String precioTotalDoubleString = decimalFormat.format(precioTotalDouble);
+        String precioTotalStringConPunto = decimalFormat.format(precioTotal);
+        String numeroConComa = precioTotalStringConPunto.replace(".", ",");
 
-        String mostrarPrecio = context.getString(R.string.precio_producto_carrito, precioTotalDoubleString);
+        String mostrarPrecio = context.getString(R.string.precio_producto_carrito, numeroConComa);
+
         holder.textViewPrecio.setText(mostrarPrecio);
 
         holder.btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ProductosCompraRealizadaActivity.class);
+                Intent intent = new Intent(context, DetallesCompraRealizadaActivity.class);
                 intent.putExtra("fecha", fecha);
-                intent.putExtra("precio", String.valueOf(compraRealizada.getPrecio()));
+                intent.putExtra("precio", compraRealizada.getPrecio());
                 intent.putExtra("productos", (Serializable) compraRealizada.getProductos());
                 intent.putExtra("gastosEnvio", compraRealizada.getGastoEnvio());
                 context.startActivity(intent);

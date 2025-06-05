@@ -35,8 +35,8 @@ public class ProductosCompraRealizadaAdminActivity extends AppCompatActivity {
     private AppCompatButton btnVolver, btnGuardar;
     private TextView textViewCantidadSubtotal, textViewCantidadIVA, textViewCantidadTotal, textViewGastosEnvio, textViewFecha, textViewCalle, textViewPortal, textViewPiso, textViewPuerta, textViewCiudad, textViewCP, textViewNombre, textViewApellidos, textViewTelefono;
     private CheckBox checkBoxProcesado;
-    private String fecha, precio, gastosEnvio;
-    private double iva = 0.04, precioCarrito;
+    private String fecha, precio;
+    private double iva = 0.04, precioTotalDouble, gastosEnvioDouble;
     private RecyclerView recyclerView;
     private List<ProductoCarrito> listaProductoCarrito;
     private ProductoCompradoAdapter adaptadorProductosComprados;
@@ -86,12 +86,32 @@ public class ProductosCompraRealizadaAdminActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listaProductoCarrito = (List<ProductoCarrito>) intent.getSerializableExtra("productos");
         fecha = intent.getStringExtra("fecha");
-        gastosEnvio = intent.getStringExtra("gastosEnvio");
-
+        gastosEnvioDouble = intent.getDoubleExtra("gastosEnvio", -1);
+        precioTotalDouble = intent.getDoubleExtra("precio", -1);
         Direccion direccion = (Direccion) intent.getSerializableExtra("direccion");
         Usuario user = (Usuario) intent.getSerializableExtra("user");
 
-        Double doubleGastoEnvio = Double.parseDouble(gastosEnvio);
+
+        Double totalSinEnvio = precioTotalDouble-gastosEnvioDouble;
+        Double ivaDouble = totalSinEnvio*iva;
+        Double subtotalDouble = totalSinEnvio - ivaDouble;
+
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String precioTotalDoubleConPunto = decimalFormat.format(precioTotalDouble);
+        String ivaDoubleConPunto = decimalFormat.format(ivaDouble);
+        String subtotalDoubleConPunto = decimalFormat.format(subtotalDouble);
+        String gastosEnvioConPunto = decimalFormat.format(gastosEnvioDouble);
+
+        String ivaString = ivaDoubleConPunto.replace(".", ",");
+        String subtotalString = subtotalDoubleConPunto.replace(".", ",");
+        String precioTotalString = precioTotalDoubleConPunto.replace(".", ",");
+        String gastosEnvioString = gastosEnvioConPunto.replace(".", ",");
+
+        String mostrarFecha = getString(R.string.compra_realizada_fecha, fecha);
+
+        /**
+        Double doubleGastoEnvio = Double.parseDouble(gastosEnvioDouble);
 
 
         String numeroConPunto = new String();
@@ -118,12 +138,13 @@ public class ProductosCompraRealizadaAdminActivity extends AppCompatActivity {
         String subtotalString = decimalFormat.format(subtotalDouble);
         String precioTotalDoubleString = decimalFormat.format(precioTotalDouble);
 
-        String mostrarFecha = getString(R.string.compra_realizada_fecha, fecha);
 
+        String mostrarFecha = getString(R.string.compra_realizada_fecha, fecha);
+*/
 
         textViewFecha.setText(mostrarFecha);
-        textViewGastosEnvio.setText(getString(R.string.cantidad_gastos_envio, gastosEnvio));
-        textViewCantidadTotal.setText(getString(R.string.cantidad_total, precioTotalDoubleString));
+        textViewGastosEnvio.setText(getString(R.string.cantidad_gastos_envio, gastosEnvioString));
+        textViewCantidadTotal.setText(getString(R.string.cantidad_total, precioTotalString));
         textViewCantidadIVA.setText(getString(R.string.cantidad_iva, ivaString));
         textViewCantidadSubtotal.setText(getString(R.string.cantidad_subtotal, subtotalString));
 

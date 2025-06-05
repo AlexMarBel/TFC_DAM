@@ -40,13 +40,13 @@
             android:name=".AdminPanel.AdminActivity"
             android:exported="false" />
         <activity
-            android:name=".UsuarioPanel.ProductosCompraRealizadaActivity"
+            android:name=".UsuarioPanel.DetallesCompraRealizadaActivity"
             android:exported="false" />
         <activity
-            android:name=".Tienda.ConfirmarDatosActivity"
+            android:name=".Carrito.ConfirmarDatosActivity"
             android:exported="false" />
         <activity
-            android:name=".Tienda.CarritoActivity"
+            android:name=".Carrito.CarritoActivity"
             android:exported="false" />
         <activity
             android:name=".UsuarioPanel.DireccionActivity"

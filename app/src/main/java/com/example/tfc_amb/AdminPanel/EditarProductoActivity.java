@@ -159,19 +159,6 @@ public class EditarProductoActivity extends AppCompatActivity {
                     }
                 }
 
-                //Forzamos que muestre los datos del primer producto, ya que si no no funciona correctamente
-                //la seleccion del primer elemento de la lista
-                /**
-                if (!listaProductos.isEmpty()) {
-                    Producto primerProducto = listaProductos.get(0);
-                    editTextIdentificador.setText(String.valueOf(primerProducto.getId()));
-                    editTextNombre.setText(primerProducto.getTitulo());
-                    editTextURL.setText(primerProducto.getUrlFoto());
-                    editTextCantidad.setText(String.valueOf(primerProducto.getCantidad()));
-                    editTextPrecio.setText(String.valueOf(primerProducto.getPrecio()));
-                    editTextCantidadVendida.setText(String.valueOf(primerProducto.getCantidadVendida()));
-                }
-                 */
             }
 
             @Override
@@ -240,21 +227,24 @@ public class EditarProductoActivity extends AppCompatActivity {
                 String cantidadVendidaString = editTextCantidadVendida.getText().toString();
 
 
-                if(!idString.isEmpty() && !titulo.isEmpty() && !url.isEmpty() && !precioString.isEmpty()
-                    && !cantidadString.isEmpty() && !cantidadVendidaString.isEmpty()) {
+                if(!idString.isEmpty() && !titulo.isEmpty() && !precioString.isEmpty()
+                    && !cantidadString.isEmpty()) {
 
                     //Antes de convertir el precio a double indicamos que si se ha introducido con "," en
                     //lugar de "." se reemplace, para que no de error al hacer la conversion.
                     precioString = precioString.replace(",", ".");
                     double precio = Double.parseDouble(precioString);
                     int cantidad = Integer.parseInt(cantidadString);
-                    int cantidadVendida = Integer.parseInt(cantidadVendidaString);
+                    int cantidadVendida = 0;
                     int id = Integer.parseInt(idString);
-
+                    if (!cantidadVendidaString.isEmpty()) {
+                        cantidadVendida = Integer.parseInt(cantidadVendidaString);
+                    }
                     Producto producto = new Producto(id, cantidad, cantidadVendida, titulo, url, categoriaTitulo, precio);
                     conexionDB.actualizarProducto(producto);
+                    Toast.makeText(EditarProductoActivity.this, getString(R.string.producto_actualizado), Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(EditarProductoActivity.this, getString(R.string.error_datos_crear_categoria), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditarProductoActivity.this, getString(R.string.error_actualizar_producto), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -269,6 +259,15 @@ public class EditarProductoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 ConexionDB conexionDB = new ConexionDB(userID, db, mAuth, EditarProductoActivity.this);
                 conexionDB.eliminarProductoPorId(productoID);
+
+                Toast.makeText(EditarProductoActivity.this, getString(R.string.producto_eliminado), Toast.LENGTH_SHORT).show();
+                editTextIdentificador.setText("");
+                editTextNombre.setText("");
+                editTextURL.setText("");
+                editTextCantidad.setText("");
+                editTextPrecio.setText("");
+                editTextCantidadVendida.setText("");
+
             }
         });
         builder.setNegativeButton(R.string.boton_cancelar, new DialogInterface.OnClickListener() {

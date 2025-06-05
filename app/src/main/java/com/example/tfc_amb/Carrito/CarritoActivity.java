@@ -1,4 +1,4 @@
-package com.example.tfc_amb.Tienda;
+package com.example.tfc_amb.Carrito;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -99,12 +99,19 @@ public class CarritoActivity extends AppCompatActivity {
                 //que se guardan en la base de datos y evitando problemas futuros de formato con el punto y la coma.
                 DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(Locale.US);
                 decimalFormat.applyPattern("#.##");
-                String total = decimalFormat.format(calcularPrecioCarrito());
+                double total = calcularPrecioCarrito();
 
                 Intent intent = new Intent(CarritoActivity.this, ConfirmarDatosActivity.class);
                 intent.putExtra("total", total);
-                intent.putExtra("gastoEnvio", String.valueOf(gastosEnvio));
-                Log.d("Precio carrito1", "total: "+total+", gastoEnvio: "+gastosEnvio);
+                intent.putExtra("gastoEnvio", gastosEnvio);
+
+                for(ProductoCarrito p: listaProductoCarrito){
+                    if(p.getCantidadComprada() == 0){
+                        conexionDB.eliminarProductoCarrito(p.getId(), userID);
+                    }
+                }
+
+
                 startActivity(intent);
             }
         });
@@ -147,11 +154,13 @@ public class CarritoActivity extends AppCompatActivity {
 
         if(total > ofertaEnvio){
             gastosEnvio = 0;
-            String mostrarGastosEnvio = getString(R.string.cantidad_gastos_envio, String.valueOf(gastosEnvio));
+            String gastoEnvioFormateado = decimalFormat.format(gastosEnvio);
+            String mostrarGastosEnvio = getString(R.string.cantidad_gastos_envio, gastoEnvioFormateado);
             textViewCantidadEnvio.setText(mostrarGastosEnvio);
         } else {
             gastosEnvio = 3;
-            String mostrarGastosEnvio = getString(R.string.cantidad_gastos_envio, String.valueOf(gastosEnvio));
+            String gastoEnvioFormateado = decimalFormat.format(gastosEnvio);
+            String mostrarGastosEnvio = getString(R.string.cantidad_gastos_envio, gastoEnvioFormateado);
             textViewCantidadEnvio.setText(mostrarGastosEnvio);
             total = total + gastosEnvio;
         }

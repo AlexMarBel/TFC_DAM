@@ -50,10 +50,16 @@ public class CategoriasAdapter extends RecyclerView.Adapter<CategoriasAdapter.Vi
 
         holder.titulo.setText(tituloFormateado);
 
-        //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
-        Glide.with(context)
-                .load(categoria.getUrlFoto())
-                .into(holder.imagen);
+        if(categoria.getUrlFoto() != null && !categoria.getUrlFoto().isEmpty()){
+            //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
+            Glide.with(context)
+                    .load(categoria.getUrlFoto())
+                    .into(holder.imagen);
+        }else{
+            Glide.with(context)
+                    .load(R.drawable.baseline_no_photography_24)
+                    .into(holder.imagen);
+        }
 
 
         holder.imagen.setOnClickListener(new View.OnClickListener() {

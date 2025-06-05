@@ -99,20 +99,28 @@ public class CrearProductoActivity extends AppCompatActivity {
                 String precioString = editTextPrecio.getText().toString();
                 String cantidadVendidaString = editTextCantidadVendida.getText().toString();
 
-                if(!idString.isEmpty() && !titulo.isEmpty() && !url.isEmpty() && !precioString.isEmpty()
-                        && !cantidadString.isEmpty() && !cantidadVendidaString.isEmpty()) {
+                if(!idString.isEmpty() && !titulo.isEmpty() && !precioString.isEmpty()
+                        && !cantidadString.isEmpty()) {
+
 
                     //Antes de convertir el precio a double indicamos que si se ha introducido con "," en
                     //lugar de "." se reemplace, para que no de error al hacer la conversion.
                     precioString = precioString.replace(",", ".");
                     double precio = Double.parseDouble(precioString);
                     int cantidad = Integer.parseInt(cantidadString);
-                    int cantidadVendida = Integer.parseInt(cantidadVendidaString);
+                    int cantidadVendida = 0;
                     int id = Integer.parseInt(idString);
+
+                    if (!cantidadVendidaString.isEmpty()){
+                        cantidadVendida = Integer.parseInt(cantidadVendidaString);
+                    }
+
 
                     Producto producto = new Producto(id, cantidad, cantidadVendida, titulo, url, categoriaTitulo, precio);
 
                     conexionDB.crearProducto(producto);
+
+                    Toast.makeText(CrearProductoActivity.this, getString(R.string.producto_creado), Toast.LENGTH_SHORT).show();
 
                     editTextIdentificador.setText("");
                     editTextNombre.setText("");
@@ -139,11 +147,10 @@ public class CrearProductoActivity extends AppCompatActivity {
 
                     }
                 }
-                Log.d("String", "Categoria seleccionada"+categoriaSeleccionada);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onNothingSelected(AdapterView<?> paCuanrent) {
 
             }
         });

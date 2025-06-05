@@ -1,6 +1,9 @@
-package com.example.tfc_amb.Tienda;
+package com.example.tfc_amb.Carrito;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,9 +24,12 @@ import com.example.tfc_amb.Modelos.Producto;
 import com.example.tfc_amb.Modelos.Usuario;
 import com.example.tfc_amb.Modelos.ProductoCarrito;
 import com.example.tfc_amb.R;
+import com.example.tfc_amb.RegistroLogin.MainActivity;
+import com.example.tfc_amb.Tienda.TiendaActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,20 +104,19 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
             @Override
             public void onCarritoCargado(List<ProductoCarrito> listaProductoCarrito) {
                 listaCarrito.addAll(listaProductoCarrito);
-
-                for(ProductoCarrito p : listaCarrito){
-                    Log.d("CarritoConfirma", "Producto: "+ p.getTitulo() +", cantidadComprada: "+p.getCantidadComprada());
-                }
             }
         });
 
         Intent intent = getIntent();
-        String total = intent.getStringExtra("total");
-        String gastoEnvio = intent.getStringExtra("gastoEnvio");
-        String mostrarTotal = getString(R.string.cantidad_total, total);
+        double total = intent.getDoubleExtra("total", -1);
+        double gastoEnvio = intent.getDoubleExtra("gastoEnvio", -1);
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+        String totalFormateado = decimalFormat.format(total);
+        String mostrarTotal = getString(R.string.cantidad_total, totalFormateado);
         textViewTotal.setText(mostrarTotal);
 
-        Log.d("Precio carrito1", "Confirmar datos: total: "+total+", gastoEnvio: "+gastoEnvio);
+        //Log.d("Precio carrito1", "Confirmar datos: total: "+total+", gastoEnvio: "+gastoEnvio);
 
 
         btnGuardar.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +165,9 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
                     Toast.makeText(ConfirmarDatosActivity.this, getString(R.string.error_telefono_vacio), Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(!usuarioConectado()){
+                    return;
+                }
 
                 //Guardamos los datos nuevos
                 direccionUsuario = new Direccion(calle, portal, piso, puerta, ciudad, codigoPostal);
@@ -182,9 +190,11 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
                             if (p.getCantidadComprada() > productoDB.getCantidad()){
                                 realizarCompra = false;
                                 if(productoDB.getCantidad()> 1) {
-                                    Toast.makeText(ConfirmarDatosActivity.this, "No hay suficiente cantidad de " + p.getTitulo() + ". Solo quedan " + productoDB.getCantidad(), Toast.LENGTH_SHORT).show();
+                                    //"No hay suficiente cantidad de " + p.getTitulo() + ". Solo quedan " + productoDB.getCantidad()
+                                    Toast.makeText(ConfirmarDatosActivity.this, getString(R.string.error_cantidad_insuficiente, p.getTitulo(), productoDB.getCantidad()), Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(ConfirmarDatosActivity.this, "Lo sentimos, no queda: "+ productoDB.getTitulo() , Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ConfirmarDatosActivity.this, getString(R.string.error_producto_no_disponible, p.getTitulo()) , Toast.LENGTH_SHORT).show();
+                                    //"Lo sentimos, no queda: "+ productoDB.getTitulo()
                                 }
                                 consultasRealizadas++;
                             }else{
@@ -194,7 +204,7 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
                             //Si quedan suficientes productos realizamos la compra. Primero se actualizaran los datos de
                             //producto restante y despues se realiza la compra borrandose el carrito
                             //Como las consultas a la base de datos son asincronas pongo contadores para esperar
-                            //A a que se hagan todas las consultas antes de que el codigo continue.
+                            //a que se hagan todas las consultas antes de que el codigo continue.
 
                             if(consultasRealizadas == consultas && realizarCompra) {
 
@@ -206,10 +216,8 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
                                         public void OnActualizarCantidadProducto() {
                                             consultasRealizadas2++;
 
-                                            Log.d("Borrar ", "Consultas realizadas: "+consultasRealizadas+", consultas: "+consultas);
                                             if(consultasRealizadas2 == consultas){
 
-                                                Log.d("Borrar ", "LLega");
                                                 conexionDB.realizarCompra(listaCarrito, total, gastoEnvio, direccionUsuario, usuarioCargado, new ConexionDB.OnCompraRealizadaListener() {
                                                     @Override
                                                     public void onCompraRealizada() {
@@ -236,5 +244,27 @@ public class ConfirmarDatosActivity extends AppCompatActivity {
                 getOnBackPressedDispatcher().onBackPressed();
             }
         });
+    }
+
+    private boolean usuarioConectado(){
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+        if (connectivityManager != null){
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            NetworkCapabilities networkCapabilities= connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+            if(networkCapabilities == null) {
+                Toast.makeText(ConfirmarDatosActivity.this, getString(R.string.error_sin_conexion), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+            if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                return true;
+            }
+            if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                return true;
+            }
+            return networkInfo != null && networkInfo.isConnected();
+        }else{
+            Toast.makeText(ConfirmarDatosActivity.this, getString(R.string.error_sin_conexion), Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 }

@@ -75,8 +75,47 @@ private ProductoCarrito productoCarrito;
         //Obtenemos del intent los datos del producto
         Intent intent = getIntent();
         idProducto = intent.getIntExtra("id", -1);
-        Log.d("FirestoreDebug", "idProducto al inicio: " + idProducto);
 
+        ConexionDB conexionDB = new ConexionDB(userID, db, mAuth, DetallesProductoActivity.this);
+
+        conexionDB.obtenerProductoPorId(idProducto, new ConexionDB.OnObtenerProductoPorIdListener() {
+            @Override
+            public void OnObtenerProductoPorId(Producto productoDB) {
+                Log.d("FirestoreDebug", "Producto obtenido: " + productoDB.toString());
+                producto.setPrecio(productoDB.getPrecio());
+                producto.setId(productoDB.getId());
+                producto.setTitulo(productoDB.getTitulo());
+                producto.setUrlFoto(productoDB.getUrlFoto());
+                producto.setCategoria(productoDB.getCategoria());
+                producto.setCantidad(productoDB.getCantidad());
+                producto.setCantidadVendida(productoDB.getCantidadVendida());
+
+                String precioFormateado = String.format("%.2f", producto.getPrecio());
+                try {
+                    producto.setPrecio(Double.parseDouble(precioFormateado));
+                } catch (NumberFormatException e){
+                    precioFormateado = precioFormateado.replace(",", ".");
+                    producto.setPrecio(Double.parseDouble(precioFormateado));
+                }
+
+
+                if(producto.getUrlFoto() != null && !producto.getUrlFoto().isEmpty()) {
+                    //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
+                    Glide.with(DetallesProductoActivity.this)
+                            .load(producto.getUrlFoto())
+                            .into(imagen);
+                } else {
+                    Glide.with(DetallesProductoActivity.this)
+                            .load(R.drawable.baseline_no_photography_24)
+                            .into(imagen);
+                }
+
+                titulo.setText(producto.getTitulo());
+                precio.setText(getString(R.string.precio, precioFormateado));
+            }
+        });
+
+        /*
         if(idProducto != -1){
             producto.setId(idProducto);
             producto.setTitulo(intent.getStringExtra("titulo"));
@@ -84,25 +123,37 @@ private ProductoCarrito productoCarrito;
             producto.setCantidad(intent.getIntExtra("cantidad", -1));
             producto.setCantidadVendida(intent.getIntExtra("cantidadVendida", -1));
 
-            String precioFormateado = String.format("%.2f", intent.getDoubleExtra("precio", -1));
+            String precioFormateado = String.format("%.2f", producto.getPrecio());
             try {
                 producto.setPrecio(Double.parseDouble(precioFormateado));
             } catch (NumberFormatException e){
                 precioFormateado = precioFormateado.replace(",", ".");
                 producto.setPrecio(Double.parseDouble(precioFormateado));
             }
-            titulo.setText(producto.getTitulo());
-            Glide.with(DetallesProductoActivity.this)
-                    .load(producto.getUrlFoto())
-                    .into(imagen);
 
+
+            if(producto.getUrlFoto() != null && !producto.getUrlFoto().isEmpty()) {
+                //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
+                Glide.with(this)
+                        .load(producto.getUrlFoto())
+                        .into(imagen);
+            } else {
+                Glide.with(this)
+                        .load(R.drawable.baseline_no_photography_24)
+                        .into(imagen);
+            }
+
+            titulo.setText(producto.getTitulo());
+            precio.setText(getString(R.string.precio, precioFormateado));
+        /**
             //Formateamos el precio para que solo tenga dos decimales
             precio.setText(getString(R.string.precio, precioFormateado));
         } else {
             Log.d("Error productos", "Error al obtener el producto");
         }
 
-        ConexionDB conexionDB = new ConexionDB(userID, db, mAuth, DetallesProductoActivity.this);
+         */
+
 
         //Verificamos si ya teniamos anteriormente el producto añadido en favoritos para asi iniciar el icono
         //corazon en la posicion correcta (activado o inactivado)

@@ -1,6 +1,10 @@
 package com.example.tfc_amb.RegistroLogin;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -105,13 +109,32 @@ public class MainActivity extends AppCompatActivity {
      @Override
      public void onStart() {
          super.onStart();
-         // Check if user is signed in (non-null) and update UI accordingly.
          FirebaseUser currentUser = mAuth.getCurrentUser();
-         if (currentUser != null) {
+         if (currentUser != null && usuarioConectado()) {
              Intent intent = new Intent(MainActivity.this, SplashActivity.class);
              startActivity(intent);
          }
      }
 
-
+     private boolean usuarioConectado(){
+         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(CONNECTIVITY_SERVICE);
+         if (connectivityManager != null){
+             NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+             NetworkCapabilities networkCapabilities= connectivityManager.getNetworkCapabilities(connectivityManager.getActiveNetwork());
+             if(networkCapabilities == null) {
+                 Toast.makeText(MainActivity.this, getString(R.string.error_sin_conexion), Toast.LENGTH_SHORT).show();
+                 return false;
+             }
+             if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                 return true;
+             }
+             if (networkCapabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                 return true;
+             }
+             return networkInfo != null && networkInfo.isConnected();
+         }else{
+             Toast.makeText(MainActivity.this, getString(R.string.error_sin_conexion), Toast.LENGTH_SHORT).show();
+             return false;
+         }
+     }
 }

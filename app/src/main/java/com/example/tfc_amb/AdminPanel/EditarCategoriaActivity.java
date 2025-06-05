@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -120,13 +121,12 @@ public class EditarCategoriaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String idString = editTextIdentificador.getText().toString();
-                //int id = Integer.parseInt(idString);
                 String titulo = editTextNombre.getText().toString();
                 String url = editTextURL.getText().toString();
 
-                if(!idString.isEmpty() || !titulo.isEmpty() || !url.isEmpty()){
+                if(!idString.isEmpty() || !url.isEmpty()){
                     conexionDB.actualizarCategoria(idString, titulo, url);
-                    //https://firebasestorage.googleapis.com/v0/b/ambtfc.firebasestorage.app/o/cebollasPrueba.jpg?alt=media&token=bd863f56-170c-41ba-a3d2-3345da996700
+                    Toast.makeText(EditarCategoriaActivity.this, getString(R.string.categoria_actualizada), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -135,9 +135,9 @@ public class EditarCategoriaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String idString = editTextIdentificador.getText().toString();
-
+                String titulo = editTextNombre.getText().toString().toLowerCase();
                 if(!idString.isEmpty()){
-                    dialogoBorrar(idString);
+                    dialogoBorrar(idString, titulo);
                 }
             }
         });
@@ -152,7 +152,7 @@ public class EditarCategoriaActivity extends AppCompatActivity {
 
     }
 
-    private void dialogoBorrar(String id) {
+    private void dialogoBorrar(String id, String titulo) {
         AlertDialog.Builder builder = new AlertDialog.Builder(EditarCategoriaActivity.this);
         builder.setTitle(getString(R.string.confirmar_eliminar_categoria));
         builder.setMessage(R.string.pregunta_eliminar_categoria);
@@ -160,7 +160,13 @@ public class EditarCategoriaActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 ConexionDB conexionDB = new ConexionDB(userID, db, mAuth, EditarCategoriaActivity.this);
-                conexionDB.eliminarCategoria(id);
+                conexionDB.eliminarCategoria(id, titulo);
+
+                Toast.makeText(EditarCategoriaActivity.this, getString(R.string.categoria_eliminada), Toast.LENGTH_SHORT).show();
+                editTextIdentificador.setText("");
+                editTextNombre.setText("");
+                editTextURL.setText("");
+
             }
         });
         builder.setNegativeButton(R.string.boton_cancelar, new DialogInterface.OnClickListener() {

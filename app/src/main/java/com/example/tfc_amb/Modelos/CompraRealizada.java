@@ -6,8 +6,8 @@ import java.util.List;
 public class CompraRealizada {
     private List<ProductoCarrito> productos;
     private Date fechaCompra;
-    private String precio;
-    private String gastoEnvio;
+    private double precio;
+    private double gastoEnvio;
     private boolean compraProcesada;
 
     private Direccion direccion;
@@ -16,7 +16,7 @@ public class CompraRealizada {
     public CompraRealizada() {
     }
 
-    public CompraRealizada(List<ProductoCarrito> productos, Date fechaCompra, String precio, String gastoEnvio, boolean compraProcesada, Direccion direccion, Usuario user) {
+    public CompraRealizada(List<ProductoCarrito> productos, Date fechaCompra, double precio, double gastoEnvio, boolean compraProcesada, Direccion direccion, Usuario user) {
         this.productos = productos;
         this.fechaCompra = fechaCompra;
         this.precio = precio;
@@ -42,19 +42,19 @@ public class CompraRealizada {
         this.fechaCompra = fechaCompra;
     }
 
-    public String getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
-    public void setPrecio(String precio) {
+    public void setPrecio(double precio) {
         this.precio = precio;
     }
 
-    public String getGastoEnvio() {
+    public double getGastoEnvio() {
         return gastoEnvio;
     }
 
-    public void setGastoEnvio(String gastoEnvio) {
+    public void setGastoEnvio(double gastoEnvio) {
         this.gastoEnvio = gastoEnvio;
     }
 

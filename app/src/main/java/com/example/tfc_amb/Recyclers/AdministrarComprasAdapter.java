@@ -53,20 +53,13 @@ public class AdministrarComprasAdapter extends RecyclerView.Adapter<AdministrarC
 
         holder.textViewFecha.setText(fecha);
 
-        String numeroConPunto = new String();
-
-        //Para evitar problemas con el punto y la coma en valores numericos debido al idioma
-        try{
-            numeroConPunto = compraRealizada.getPrecio().replace(",", ".");
-            precioTotalDouble = Double.parseDouble(numeroConPunto);
-        }catch (NumberFormatException e){
-            Log.d("Error parseo" , "Error parseo Double precio compra " + e);
-        }
+        Double precioTotal = compraRealizada.getPrecio();
 
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
-        String precioTotalDoubleString = decimalFormat.format(precioTotalDouble);
+        String precioTotalStringConPunto = decimalFormat.format(precioTotal);
+        String precioTotalStringConPuntoConComa = precioTotalStringConPunto.replace(".", ",");
 
-        String mostrarPrecio = context.getString(R.string.precio_producto_carrito, precioTotalDoubleString);
+        String mostrarPrecio = context.getString(R.string.precio_producto_carrito, precioTotalStringConPuntoConComa);
         holder.textViewPrecio.setText(mostrarPrecio);
 
         holder.checkBoxProcesado.setChecked(compraRealizada.isCompraProcesada());
@@ -79,7 +72,7 @@ public class AdministrarComprasAdapter extends RecyclerView.Adapter<AdministrarC
 
                 intent.putExtra("fecha", fecha);
                 intent.putExtra("fechaCompra", compraRealizada.getFechaCompra().getTime());
-                intent.putExtra("precio", String.valueOf(compraRealizada.getPrecio()));
+                intent.putExtra("precio", compraRealizada.getPrecio());
                 intent.putExtra("productos", (Serializable) compraRealizada.getProductos());
                 intent.putExtra("gastosEnvio", compraRealizada.getGastoEnvio());
                 intent.putExtra("compraProcesado", compraRealizada.isCompraProcesada());

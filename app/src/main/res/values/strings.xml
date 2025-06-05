@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFC_AMB</string>
+    <string name="app_name">FrutApp</string>
 
     <string name="inicio_sesion_titulo">INICIO DE SESIÓN</string>
     <string name="no_cuenta">¿No tienes una cuenta?</string>
@@ -34,6 +34,7 @@
     <string name="error_contrasena_no_iguales">Las contraseñas no coinciden</string>
     <string name="email_enviado">Email de recuperación de contraseña enviado.</string>
     <string name="error_email_enviado">Error al enviar el email de recuperación de contraseña.</string>
+    <string name="error_sin_conexion">Error de conexión. Es necesaria una conexión a internet.</string>
 
     <string name="bienvenido">¡Bienvenid@ %s!</string>
 
@@ -138,7 +139,10 @@
     <string name="boton_modificar_producto">Editar producto</string>
     <string name="boton_modificar_categoria">Editar categoría</string>
     <string name="editar_categoria">Editar categoría</string>
+    <string name="categoria_actualizada">Categoría actualizada correctamente</string>
+    <string name="crear_categoria">Crear categoría</string>
     <string name="editar_producto">Editar producto</string>
+    <string name="crear_producto">Crear producto</string>
     <string name="eliminar">Eliminar</string>
     <string name="seleccionar_categoria">Selecciona una categoría</string>
     <string name="seleccionar_producto">Selecciona un producto</string>
@@ -148,8 +152,13 @@
 
 
     <string name="confirmar_eliminar_categoria">Eliminar categoría</string>
+    <string name="categoria_eliminada">Categoría eliminada correctamente.</string>
     <string name="pregunta_eliminar_categoria">¿Está seguro de eliminar esta categoría? Se eliminarán todos los productos que contiene y no se podrán recuperar.</string>
-    <string name="error_datos_crear_categoria">Es necesario rellenar todos los datos.</string>
+    <string name="error_datos_crear_categoria">Es necesario rellenar el id, nombre, precio y cantidad.</string>
+    <string name="error_actualizar_producto">Es necesario rellenar el id, nombre, precio y categoría.</string>
+    <string name="producto_actualizado">Producto actualizado correctamente.</string>
+    <string name="producto_creado">Producto creado correctamente.</string>
+    <string name="producto_eliminado">Producto eliminado.</string>
     <string name="id_existe">Este número identificador ya existe en la base de datos, pertece a %s</string>
     <string name="categoria_creada">Categoria creada correctamente</string>
     <string name="no_productos">Actualmente no existen productos en la categoria %s</string>
@@ -159,6 +168,8 @@
     <string name="pregunta_eliminar_producto">¿Está seguro de eliminar este producto? Se eliminarán todos los datos y no se podrán recuperar.</string>
 
     <string name="error_id_producto">Ya existe un producto con este identificador.</string>
+    <string name="error_cantidad_insuficiente">No hay suficiente cantidad de %1$s. Solo quedan %2$d.</string>
+    <string name="error_producto_no_disponible">Lo sentimos, no queda: %s</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.tfc_amb.Tienda.CarritoActivity;
+import com.example.tfc_amb.Carrito.CarritoActivity;
 import com.example.tfc_amb.Tienda.FavoritoActivity;
 import com.example.tfc_amb.RegistroLogin.MainActivity;
 import com.example.tfc_amb.R;

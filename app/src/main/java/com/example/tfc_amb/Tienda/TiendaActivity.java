@@ -1,6 +1,7 @@
 package com.example.tfc_amb.Tienda;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,7 @@ import com.example.tfc_amb.Recyclers.ProductosVendidosAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,14 +77,6 @@ public class TiendaActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mAuth = FirebaseAuth.getInstance();
-
-
-        //FirestoreUploader uploader = new FirestoreUploader();
-        //uploader.subirCategorias();
-
-        //Direccion direccion = new Direccion("Marzo", "000", "3", "A", "Albacete", "02002");
-        //Usuario usuario = new Usuario(userID, "Alejandro", "alexbq92@gmail.com", "Martin Belmonte", "662102718", false);
-        //actualizarComprasConDireccionYUsuario(direccion, usuario);
 
 
         btnCategorias = findViewById(R.id.buttonCategorias);
@@ -148,7 +142,7 @@ public class TiendaActivity extends AppCompatActivity {
 
                 nombreProductos.clear();
                 for(Producto producto : listaProductos){
-                    nombreProductos.add(producto.getTitulo());
+                    nombreProductos.add(producto.getTitulo().toLowerCase());
                 }
 
                 adaptadorBuscador = new ArrayAdapter<>(TiendaActivity.this, android.R.layout.simple_dropdown_item_1line, nombreProductos);
@@ -170,9 +164,15 @@ public class TiendaActivity extends AppCompatActivity {
             }
         });
 
+        conexionDB.obtenerURLsDeImagenes(new ConexionDB.OnURLsObtenidasListener() {
+            @Override
+            public void onURLsObtenidas(List<String> listaURLs) {
+                cargarImagenes(listaURLs);
+            }
+        });
 
 
-        cargarImagenes();
+
         buscadorProductos.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -200,20 +200,22 @@ public class TiendaActivity extends AppCompatActivity {
             }
         });
 
+        buscadorProductos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                buscadorProductos.showDropDown();
+            }
+        });
+
         buscadorProductos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String stringSeleccionado = String.valueOf(parent.getItemAtPosition(position));
+                String stringSeleccionado = buscadorProductos.getText().toString();
 
-                for (Producto producto : listaProductos){
-                    if(producto.getTitulo().matches(stringSeleccionado)){
+                for (Producto producto : listaProductos) {
+                    if (producto.getTitulo().equalsIgnoreCase(stringSeleccionado)) {
                         Intent intent = new Intent(TiendaActivity.this, DetallesProductoActivity.class);
                         intent.putExtra("id", producto.getId());
-                        intent.putExtra("precio", producto.getPrecio());
-                        intent.putExtra("urlFoto", producto.getUrlFoto());
-                        intent.putExtra("titulo", producto.getTitulo());
-                        intent.putExtra("cantidad", producto.getCantidad());
-                        intent.putExtra("cantidadVendida", producto.getCantidadVendida());
                         startActivity(intent);
                     }
                 }
@@ -254,42 +256,15 @@ public class TiendaActivity extends AppCompatActivity {
     }
 
 
-    //Implementacion del scroll lateral importado
-    //https://www.youtube.com/watch?v=fiSWKebAZg8&t=138s
-    private void cargarImagenes() {
+    //Implementacion del carrusel importado
+    private void cargarImagenes(List<String> listaImagenes) {
         ArrayList<SlideModel> imagenesSlider = new ArrayList<>();
 
-        imagenesSlider.add(new SlideModel(R.drawable.producto_tenemos, ScaleTypes.FIT));
-        imagenesSlider.add(new SlideModel(R.drawable.mejores_precios, ScaleTypes.FIT));
-        imagenesSlider.add(new SlideModel(R.drawable.envio_domicilio, ScaleTypes.FIT));
-        imagenesSlider.add(new SlideModel(R.drawable.productos_frescos, ScaleTypes.FIT));
+        for(String url : listaImagenes){
+            imagenesSlider.add(new SlideModel(url, ScaleTypes.FIT));
+        }
 
         imageSlider.setImageList(imagenesSlider, ScaleTypes.FIT);
     }
 
-    public void actualizarComprasConDireccionYUsuario(Direccion nuevaDireccion, Usuario nuevoUsuario) {
-        db.collection("compraRealizada").document(userID)
-                .collection("compras")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot compraDoc : queryDocumentSnapshots) {
-                            // Actualizamos los campos de dirección y usuario
-                            compraDoc.getReference().update(
-                                    "direccion", nuevaDireccion,
-                                    "user", nuevoUsuario
-                            ).addOnSuccessListener(unused -> {
-                                Log.d("Firestore", "Compra actualizada correctamente: " + compraDoc.getId());
-                            }).addOnFailureListener(e -> {
-                                Log.e("Firestore", "Error al actualizar compra: " + compraDoc.getId(), e);
-                            });
-                        }
-                    } else {
-                        Log.d("Firestore", "No se encontraron compras para actualizar.");
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    Log.e("Firestore", "Error al obtener compras para actualizar", e);
-                });
-    }
 }

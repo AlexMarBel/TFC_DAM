@@ -21,6 +21,8 @@ import com.example.tfc_amb.Recyclers.ProductosVendidosAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,12 +65,18 @@ public class DetallesCategoriaActivity extends AppCompatActivity {
         urlFoto = intent.getStringExtra("urlFoto");
 
         tituloCategoria = getString(R.string.titulo_categoria, tituloCategoria);
-        textViewTitulo.setText(tituloCategoria);
+        textViewTitulo.setText(StringUtils.capitalize(tituloCategoria));
 
-        Glide.with(DetallesCategoriaActivity.this)
-                .load(urlFoto)
-                .into(imagen);
-
+        if(urlFoto != null && !urlFoto.isEmpty()) {
+            //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
+            Glide.with(this)
+                    .load(urlFoto)
+                    .into(imagen);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.baseline_no_photography_24)
+                    .into(imagen);
+        }
 
         recyclerViewProductos = findViewById(R.id.recyclerViewDetallesCategoriaProductos);
         recyclerViewProductos.setHasFixedSize(true);

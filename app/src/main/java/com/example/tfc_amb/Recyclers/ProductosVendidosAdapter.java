@@ -45,12 +45,16 @@ public class ProductosVendidosAdapter extends RecyclerView.Adapter<ProductosVend
 
         holder.titulo.setText(StringUtils.capitalize(producto.getTitulo()));
 
-        //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
-        Glide.with(context)
-                .load(producto.getUrlFoto())
-                .into(holder.imagen);
-
-
+        if(producto.getUrlFoto() != null && !producto.getUrlFoto().isEmpty()){
+            //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
+            Glide.with(context)
+                    .load(producto.getUrlFoto())
+                    .into(holder.imagen);
+        }else{
+            Glide.with(context)
+                    .load(R.drawable.baseline_no_photography_24)
+                    .into(holder.imagen);
+        }
 
 
         holder.imagen.setOnClickListener(new View.OnClickListener() {
@@ -58,11 +62,13 @@ public class ProductosVendidosAdapter extends RecyclerView.Adapter<ProductosVend
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetallesProductoActivity.class);
                 intent.putExtra("id", producto.getId());
+                /**
                 intent.putExtra("precio", producto.getPrecio());
                 intent.putExtra("urlFoto", producto.getUrlFoto());
                 intent.putExtra("titulo", producto.getTitulo());
                 intent.putExtra("cantidad", producto.getCantidad());
                 intent.putExtra("cantidadVendida", producto.getCantidadVendida());
+                 */
                 context.startActivity(intent);
             }
         });

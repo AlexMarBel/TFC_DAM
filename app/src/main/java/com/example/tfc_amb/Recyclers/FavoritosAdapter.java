@@ -48,21 +48,21 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull FavoritosAdapter.ViewHolder holder, int position) {
-
         db = FirebaseFirestore.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
         Producto producto = listProductos.get(position);
 
         String tituloFormateado = StringUtils.capitalize(producto.getTitulo());
         holder.titulo.setText(tituloFormateado);
 
-        String url = producto.getUrlFoto();
-
-        //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
-        if(url != null && !url.isEmpty()){
+        if(producto.getUrlFoto() != null && !producto.getUrlFoto().isEmpty()){
+            //Mostramos la imagen utilizando la libreria glide para facilitar el manejo de imagenes.
             Glide.with(context)
-                    .load(url)
+                    .load(producto.getUrlFoto())
+                    .into(holder.imagen);
+        }else{
+            Glide.with(context)
+                    .load(R.drawable.baseline_no_photography_24)
                     .into(holder.imagen);
         }
 
@@ -110,12 +110,14 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetallesProductoActivity.class);
                 intent.putExtra("id", producto.getId());
+                /**
                 intent.putExtra("precio", producto.getPrecio());
                 intent.putExtra("urlFoto", producto.getUrlFoto());
                 intent.putExtra("titulo", producto.getTitulo());
                 intent.putExtra("cantidad", producto.getCantidad());
                 intent.putExtra("cantidadVendida", producto.getCantidadVendida());
                 intent.putExtra("categoria", producto.getCategoria());
+                 */
                 context.startActivity(intent);
             }
         });
@@ -125,11 +127,13 @@ public class FavoritosAdapter extends RecyclerView.Adapter<FavoritosAdapter.View
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetallesProductoActivity.class);
                 intent.putExtra("id", producto.getId());
+                /**
                 intent.putExtra("precio", producto.getPrecio());
                 intent.putExtra("urlFoto", producto.getUrlFoto());
                 intent.putExtra("titulo", producto.getTitulo());
                 intent.putExtra("cantidad", producto.getCantidad());
                 intent.putExtra("cantidadVendida", producto.getCantidadVendida());
+                 */
                 context.startActivity(intent);
             }
         });

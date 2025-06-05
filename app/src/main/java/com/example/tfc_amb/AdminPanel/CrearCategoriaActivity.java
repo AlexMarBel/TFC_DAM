@@ -75,13 +75,17 @@ public class CrearCategoriaActivity extends AppCompatActivity {
                 String urlFoto = editTextURL.getText().toString();
 
                 Categorias categoria = new Categorias();
-                if (!titulo.isEmpty() || !idString.isEmpty() || !urlFoto.isEmpty()){
+                if (!titulo.isEmpty() || !idString.isEmpty()){
                     categoria.setId(Integer.parseInt(idString));
                     categoria.setTitulo(titulo.toLowerCase());
-                    categoria.setUrlFoto(urlFoto);
-
                 } else {
                     Toast.makeText(CrearCategoriaActivity.this, getString(R.string.error_datos_crear_categoria), Toast.LENGTH_SHORT).show();
+                }
+
+                if(urlFoto.isEmpty()){
+                    categoria.setUrlFoto(null);
+                } else {
+                    categoria.setUrlFoto(urlFoto);
                 }
 
                 if(categoria != null) {

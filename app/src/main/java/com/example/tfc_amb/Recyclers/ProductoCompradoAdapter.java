@@ -43,8 +43,8 @@ public class ProductoCompradoAdapter extends RecyclerView.Adapter<ProductoCompra
         String precioUnidadFormateado = decimalFormat.format(precioUnidad);
         String precioTotalFormateado = decimalFormat.format(precioTotal);
 
-        String mostrarPrecioUnidad = context.getString(R.string.precio_producto_carrito_kg, precioUnidadFormateado);
-        String mostrarPrecioTotal = context.getString(R.string.cantidad_total, precioTotalFormateado);
+        String mostrarPrecioUnidad = context.getString(R.string.precio_producto_carrito_kg, precioUnidadFormateado.replace(".", ","));
+        String mostrarPrecioTotal = context.getString(R.string.cantidad_total, precioTotalFormateado.replace(".", ","));
 
         String mostrarCantidadKg = "";
         if(kgComprados>1) {

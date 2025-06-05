@@ -34,7 +34,7 @@
                     android:id="@+id/textViewCompraFecha"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/editar_categoria"
+                    android:text="@string/crear_categoria"
                     android:textSize="28sp"
                     android:textStyle="bold"
                     android:fontFamily="@font/agbalumo"
@@ -84,6 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:inputType="number"
                         android:textSize="20sp"
                         android:textAlignment="viewEnd"
                         android:background="@drawable/rectangulo_edit_text"/>

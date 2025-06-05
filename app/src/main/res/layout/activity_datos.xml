@@ -94,6 +94,7 @@
                         android:id="@+id/editTextNombre"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:inputType="text"
                         android:layout_weight="1"
                         android:textSize="20sp"
                         android:textAlignment="viewEnd"
@@ -130,6 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:inputType="text"
                         android:textSize="20sp"
                         android:textAlignment="viewEnd"
                         android:background="@drawable/rectangulo_edit_text"/>
@@ -165,6 +167,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:inputType="number"
                         android:textSize="20sp"
                         android:textAlignment="viewEnd"
                         android:background="@drawable/rectangulo_edit_text"/>

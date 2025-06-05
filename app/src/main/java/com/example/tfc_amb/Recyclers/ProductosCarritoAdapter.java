@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tfc_amb.ConexionDB;
 import com.example.tfc_amb.Modelos.ProductoCarrito;
 import com.example.tfc_amb.R;
+import com.example.tfc_amb.Tienda.DetallesProductoActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +30,8 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
     private Context context;
     private FirebaseFirestore db;
     private String userID;
+    private FirebaseAuth mAuth;
+    private int cantidadMaximaCarrito = 10;
 
     public ProductosCarritoAdapter(List<ProductoCarrito> listaProductoCarrito, Context context) {
         this.listaProductoCarrito = listaProductoCarrito;
@@ -45,6 +49,10 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
     public void onBindViewHolder(@NonNull ProductosCarritoAdapter.ViewHolder holder, int position) {
         db = FirebaseFirestore.getInstance();
         userID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mAuth = FirebaseAuth.getInstance();
+
+        ConexionDB conexionDB = new ConexionDB(userID, db, mAuth, context);
+
 
         ProductoCarrito productoCarrito = listaProductoCarrito.get(position);
 
@@ -73,7 +81,7 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
                     holder.textViewCantidad.setText(nuevaCantidad);
 
                     //Actualizamos la cantidadVendida en la base de datos con cada click
-                    actualizarCantidadVendida(idProducto, cantidadInt);
+                    conexionDB.actualizarCantidadCarrito(idProducto, cantidadInt);
                 }
             }
         });
@@ -82,13 +90,13 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
             @Override
             public void onClick(View v) {
                 int cantidadInt = Integer.parseInt(holder.textViewCantidad.getText().toString());
-                if(cantidadInt < 10){
+                if(cantidadInt < cantidadMaximaCarrito){
                     cantidadInt++;
                     String nuevaCantidad = String.valueOf(cantidadInt);
                     holder.textViewCantidad.setText(nuevaCantidad);
 
                     //Actualizamos la cantidadVendida en la base de datos con cada click
-                    actualizarCantidadVendida(idProducto, cantidadInt);
+                    conexionDB.actualizarCantidadCarrito(idProducto, cantidadInt);
                 }
             }
         });
@@ -97,7 +105,9 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
             @Override
             public void onClick(View v) {
 
+                conexionDB.eliminarProductoCarrito(idProducto, userID);
 
+                /**
                 db.collection("carrito").document(userID)
                         .collection("productos")
                         .document(String.valueOf(idProducto))
@@ -114,13 +124,13 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
                             public void onFailure(@NonNull Exception e) {
                                 Log.d("ProductosCarritoAdapter", "Error al eliminar producto del carrito");
                             }
-                        })
-                ;
-
+                        });
+                */
             }
         });
     }
 
+    /**
     private void actualizarCantidadVendida(int idProducto, int cantidad) {
         db.collection("carrito").document(userID)
                 .collection("productos")
@@ -139,6 +149,7 @@ public class ProductosCarritoAdapter extends RecyclerView.Adapter<ProductosCarri
                     }
                 });
     }
+    */
 
     @Override
     public int getItemCount() {

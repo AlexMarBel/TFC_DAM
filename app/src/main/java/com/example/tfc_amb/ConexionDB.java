@@ -52,7 +52,6 @@ public class ConexionDB {
                 .addOnSuccessListener(documentSnapshot -> {
                     if(documentSnapshot.exists()){
                         Direccion direccionUsuario = documentSnapshot.toObject(Direccion.class);
-                        Log.d("Direccion", "Calle: "+direccionUsuario.getCalle()+", numero: "+direccionUsuario.getPortal());
                         listener.onDireccionCargada(direccionUsuario);
                     }
                 })
@@ -76,7 +75,7 @@ public class ConexionDB {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Log.e("Firestore", "Direccion cargada correctamente");
+                            Log.e("Firestore", "Direccion guardada correctamente");
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -168,16 +167,16 @@ public class ConexionDB {
                 });
     }
 
-    public void realizarCompra(List<ProductoCarrito> listaProductoCarrito, String precioCarrito, String gastoEnvio, Direccion direccion, Usuario user, OnCompraRealizadaListener listener){
+    public void realizarCompra(List<ProductoCarrito> listaProductoCarrito, double precioCarrito, double gastoEnvio, Direccion direccion, Usuario user, OnCompraRealizadaListener listener){
         Date fecha = new Date();
         CompraRealizada compra = new CompraRealizada(new ArrayList<>(listaProductoCarrito), fecha, precioCarrito, gastoEnvio, false, direccion, user);
 
         //para evitar problemas con la existencia del documento y que en firebase aparezca en cursiva (como si no existiera)
         //creo primero un objeto vacio y despues añado la informacion
         db.collection("compra_realizada").document(userID)
-                .set(new HashMap<>()) // Puedes guardar un objeto vacío o datos iniciales
+                .set(new HashMap<>())
                 .addOnSuccessListener(aVoid -> {
-                    // Una vez creado el documento, agregar la subcolección
+                    // Una vez creado el documento, agrego la subcolección
                     db.collection("compra_realizada").document(userID)
                             .collection("compras")
                             .add(compra)
@@ -189,25 +188,7 @@ public class ConexionDB {
                 })
                 .addOnFailureListener(e -> Log.d("Firestore", "Error al crear documento principal."));
 
-        /**
-        db.collection("compra_realizada").document(userID)
-                .collection("compras")
-                .add(compra)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        listener.onCompraRealizada();
-                        Toast.makeText(context, context.getString(R.string.compra_realizada), Toast.LENGTH_SHORT).show();
-                        Log.d("Firestore", "Compra realizada");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Firestore", "Error al realizar compra: " + e);
-                    }
-                });
-         */
+
     }
 
     public void cargarComprasRealizadas(OnComprasRealizadasCargadasListener listener){
@@ -342,7 +323,6 @@ public class ConexionDB {
 
                         // Obtenemos los objetos o modificamos segun los cambios
                         for (DocumentChange producto : value.getDocumentChanges()) {
-                            Log.d("Firestore Listener", "Cambio en documento: " + producto.getDocument().getId());
                             String idProducto = producto.getDocument().getId();
                             switch (producto.getType()) {
                                 case ADDED:
@@ -367,34 +347,6 @@ public class ConexionDB {
     public void obtenerProductoPorListId(List<Integer> idsProducto, OnFavoritosCargadosListener listener) {
 
         List<Producto> listaProductos = new ArrayList<>();
-
-        /**
-        //accedemos a la coleccion category
-        db.collection("Category")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    //Buscamos las categorias
-                    if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            //Metemos las categorias en un objeto categoria
-                            Categorias categoria = documentSnapshot.toObject(Categorias.class);
-                            //COgemos los productos de la categoria
-                            if (categoria != null && categoria.getProductos() != null) {
-                                //Iteramos a traves de los productos
-                                for (Producto producto : categoria.getProductos()) {
-                                    //Miramos si el producto esta en la lista
-                                    if (idsProducto.contains(producto.getId())) {
-                                        listaProductos.add(producto);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        //notificamos los cambios
-                        listener.OnFavoritosCargados(listaProductos);
-                })
-                .addOnFailureListener(e -> Log.e("Firestore", "Error al productos mediante id", e));
-         */
 
         db.collection("productos")
                 .get()
@@ -475,6 +427,44 @@ public class ConexionDB {
                 });
     }
 
+    public void eliminarProductoCarrito(int idProducto, String userID) {
+        db.collection("carrito").document(userID)
+                .collection("productos")
+                .document(String.valueOf(idProducto))
+                .delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("ProductosCarritoAdapter", "Producto eliminado del carrito correctamente");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("ProductosCarritoAdapter", "Error al eliminar producto del carrito");
+                    }
+                });
+    }
+
+    public void actualizarCantidadCarrito(int idProducto, int cantidad){
+        db.collection("carrito").document(userID)
+                .collection("productos")
+                .document(String.valueOf(idProducto))
+                .update("cantidadComprada", cantidad)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Log.d("Firebase", "Cantidad en carrito actualizada");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Firebase", "Error al actualizar cantidad");
+                    }
+                });
+    }
+
     public void verificarProductoFavorito(int idProducto, OnVerificarProductoFavoritoListener listener) {
         if (idProducto != -1) {
             // Consultamos Firestore para comprobar si el producto está en favoritos
@@ -542,36 +532,6 @@ public class ConexionDB {
                     Log.e("Firestore", "Error al obtener productos por categoría", e);
                 });
 
-        /**
-        db.collection("Category")
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    //Buscamos las categorias
-                    if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            //Metemos las categorias en un objeto categoria
-                            Categorias categoria = documentSnapshot.toObject(Categorias.class);
-                            //COgemos los productos de la categoria
-                            if (categoria != null && categoria.getProductos() != null) {
-                                //Iteramos a traves de los productos
-                                for (Producto producto : categoria.getProductos()) {
-                                    //Buscamos el producto por el id
-                                    if(producto.getId() == productoID){
-                                        listener.OnObtenerProductoPorId(producto);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Firestore", "Error al productos mediante id");
-                        listener.OnObtenerProductoPorId(null);
-                    }
-                });
-         */
     }
 
     //Mediante este metodo primero buscamos el producto mediante su ID, le restamos la cantidad comprada
@@ -618,61 +578,6 @@ public class ConexionDB {
                         Log.d("Firestore", "Error al actualizar la cantidad");
                     }
                 });
-        /**
-        db.collection("Category")
-                        .get()
-                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                            @Override
-                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
-                                    for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                                        Categorias categoria = documentSnapshot.toObject(Categorias.class);
-
-                                        if (categoria != null && categoria.getProductos() != null) {
-
-                                            //Obtenemos los productos para poder actualizarlos
-                                            List<Producto> listaProductos = categoria.getProductos();
-
-                                            for (Producto producto : listaProductos) {
-                                                if (producto.getId() == productoID) {
-
-                                                    //ponemos las nuevas cantidades
-                                                    int nuevaCantidad = producto.getCantidad() - cantidadComprada;
-                                                    int nuevaCantidadVendida = producto.getCantidadVendida() + cantidadComprada;
-                                                    producto.setCantidad(nuevaCantidad);
-                                                    producto.setCantidadVendida(nuevaCantidadVendida);
-                                                }
-                                            }
-
-                                            //Actualizamos los productos
-                                            db.collection("Category")
-                                                    .document(documentSnapshot.getId()) // Actualizamos el documento correcto
-                                                    .update("productos", listaProductos)
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void unused) {
-                                                            Log.d("Firestore", "Cantidad de producto actualizada correctamente");
-                                                            listener.OnActualizarCantidadProducto();
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Log.d("Firestore", "Error al actualizar la cantidad");
-                                                        }
-                                                    });
-                                        }
-                                    }
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d("Firestore", "Error al actualizar la cantidad");
-                            }
-                        });
-        */
     }
 
     public void actualizarCategoria(String id, String titulo, String url){
@@ -692,13 +597,35 @@ public class ConexionDB {
                 });
     }
 
-    public void eliminarCategoria(String id){
+    public void eliminarCategoria(String id, String categoria){
         db.collection("categorias").document(id)
                 .delete()
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d("Firestore", "Categoria eliminada correctamente");
+                        db.collection("productos")
+                                .whereEqualTo("categoria", categoria)
+                                .get()
+                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots){
+                                            documentSnapshot.getReference().delete()
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            Log.d("Firebase", "Producto eliminado correctamente");
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.d("Firebase", "Error al eliminar producto");
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -745,59 +672,6 @@ public class ConexionDB {
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error al actualizar el producto", e);
                 });
-        /**
-        public void actualizarProducto(String categoriaTitulo, Producto producto){
-
-        DocumentReference ruta = db.collection("Category").document(categoriaID);
-
-                ruta.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        //Obtenemos la lista de productos dentro de categoria
-                        //En firestore no se puede actualizar un producto en concreto, ya que lo tenemos
-                        //guardados los productos como un array. Por ello hay que obtener toda la lista y
-                        //buscarlo.
-                        if (documentSnapshot != null){
-                            List<Producto> productos = documentSnapshot.toObject(Categorias.class).getProductos();
-                            if(productos != null){
-                                //Buscamos en la lista de productos el producto que hemos pasado al metodo a traves del id
-                                for(Producto productoDB : productos){
-                                    if(productoDB.getId() == producto.getId()){
-                                        //Actualizamos el producto de la lista con los datos nuevos
-                                        productoDB.setTitulo(producto.getTitulo());
-                                        productoDB.setCantidad(producto.getCantidad());
-                                        productoDB.setCantidadVendida(producto.getCantidadVendida());
-                                        productoDB.setPrecio(producto.getPrecio());
-                                        productoDB.setUrlFoto(producto.getUrlFoto());
-                                    }
-                                }
-
-                                //Guardamos de nuevo la lista de productos en la base de datos
-                                ruta.update("productos", productos)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d("Firestore", "Producto actualizado correctamente");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("Firestore", "Error al guardar lista con producto actualizado");
-                                            }
-                                        });
-                            }
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Firestore", "Error al actualizar producto");
-                    }
-                });
-         */
     }
 
     public void eliminarProductoPorId(String productoId){
@@ -817,65 +691,6 @@ public class ConexionDB {
                     }
                 });
 
-        /**
-
-        public void eliminarProducto(String categoriaID, String productoID){
-
-        DocumentReference ruta = db.collection("Category").document(categoriaID);
-
-        ruta.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        //Obtenemos la lista de productos dentro de categoria
-                        //En firestore no se puede actualizar un producto en concreto, ya que lo tenemos
-                        //guardados los productos como un array. Por ello hay que obtener toda la lista y
-                        //buscarlo.
-                        if (documentSnapshot != null && documentSnapshot.exists()){
-                            List<Producto> productos = documentSnapshot.toObject(Categorias.class).getProductos();
-                            if(productos != null){
-                                //Buscamos en la lista de productos el producto que hemos pasado al metodo a traves del id
-                                //No se puede eliminar un producto de la lista de forma similar a como se hace actualizarProducto,
-                                //por ello se utiliza un iterator.
-
-                                Iterator<Producto> iterator = productos.iterator();
-                                while(iterator.hasNext()){
-                                    Producto productoDB = iterator.next();
-                                    if(productoDB.getId() == Integer.parseInt(productoID)){
-                                        iterator.remove();
-                                    }
-                                }
-
-                                //Este mismo procedimiento se podria hacer a traves de una sentencia lambda,
-                                //pero removeIf requiere sdk24 y en esta aplicacion tenemos 23.
-                                //productos.removeIf(productoDB -> productoDB.getId() == Integer.parseInt(productoID));
-
-                            }
-
-                                //Guardamos de nuevo la lista de productos en la base de datos
-                                ruta.update("productos", productos)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d("Firestore", "Producto eliminado correctamente");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("Firestore", "Error al guardar lista con producto eliminado");
-                                            }
-                                        });
-                            }
-                        }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Firestore", "Error al eliminar producto");
-                    }
-                });
-         */
     }
 
     public void crearProducto(Producto productoNuevo){
@@ -916,52 +731,6 @@ public class ConexionDB {
                         Log.d("Firestore", "Error al buscar categoria para crear nuevo producto");
                     }
                 });
-        /**
-        public void crearProducto(String idCategoria, Producto productoNuevo){
-        db.collection("Category").document(idCategoria)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if(documentSnapshot.exists() && documentSnapshot != null){
-                            List<Producto> listaProductos = documentSnapshot.toObject(Categorias.class).getProductos();
-                            boolean existe = false;
-                            for (Producto producto : listaProductos){
-                                if(producto.getId() == productoNuevo.getId()){
-                                    existe = true;
-                                }
-                            }
-                            if(!existe) {
-                                listaProductos.add(productoNuevo);
-
-                                db.collection("Category").document(idCategoria)
-                                        .update("productos", listaProductos)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                Log.d("Firestore", "Producto creado correctamente");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.d("Firestore", "Error al crear producto");
-                                            }
-                                        });
-                            }else{
-                                Toast.makeText(context, context.getString(R.string.error_id_producto), Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("Firestore", "Error al buscar categoria para crear nuevo producto");
-                    }
-                });
-         */
     }
 
     public void obtenerProductosPorCategoria(String categoria, OnObtenerProductosDeCategoriaListener listener){
@@ -979,6 +748,32 @@ public class ConexionDB {
                 })
                 .addOnFailureListener(e -> {
                     Log.e("Firestore", "Error al obtener productos por categoría", e);
+                });
+    }
+
+    public void obtenerURLsDeImagenes(OnURLsObtenidasListener listener) {
+        List<String> listaURLs = new ArrayList<>();
+
+        db.collection("imagenes")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            String urlImagen = document.getString("url");
+                            if (urlImagen != null) {
+                                listaURLs.add(urlImagen);
+                            }
+                        }
+                        // Llama al listener con la lista de URLs obtenidas
+                        listener.onURLsObtenidas(listaURLs);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("Firestore", "Error al obtener imágenes");
+                    }
                 });
     }
 
@@ -1046,5 +841,9 @@ public class ConexionDB {
 
     public interface OnObtenerProductosDeCategoriaListener{
         void OnObtenerProductosDeCategoria(List<Producto> listaProductos);
+    }
+
+    public interface OnURLsObtenidasListener {
+        void onURLsObtenidas(List<String> listaURLs);
     }
 }
